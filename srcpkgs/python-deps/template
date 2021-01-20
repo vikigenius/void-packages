@@ -1,0 +1,12 @@
+# Template file for 'python-deps'
+pkgname=python-deps
+version=20181003
+revision=2
+build_style=meta
+depends="gcc libffi-devel readline-devel gdbm-devel libressl-devel
+ tk-devel sqlite-devel bzip2-devel zlib-devel liblzma-devel"
+short_desc="Python Build tools meta package"
+maintainer="Vikash Balasubramanian <master.bvik@gmail.com>"
+license="Public Domain"
+homepage="http://www.voidlinux.org/"
+
