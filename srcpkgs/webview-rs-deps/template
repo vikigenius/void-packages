@@ -1,0 +1,11 @@
+# Template file for 'webview-rs-deps'
+pkgname=webview-rs-deps
+version=20181003
+revision=2
+build_style=meta
+depends="webkit2gtk-devel pkg-config"
+short_desc="Webview RS bindings dependencies meta package"
+maintainer="Vikash Balasubramanian <master.bvik@gmail.com>"
+license="Public Domain"
+homepage="http://www.voidlinux.org/"
+
