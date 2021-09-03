@@ -1,15 +1,15 @@
 # Template file for 'chatty'
 pkgname=chatty
-version=0.13.1
+version=0.15
 revision=1
 hostmakedepends="gradle"
 depends="virtual?java-runtime"
 short_desc="Twitch Chat Client for Desktop"
 maintainer="Frank Steinborn <steinex@nognu.de>"
-license="GPL-3.0-only"
-homepage="http://chatty.github.io/"
+license="GPL-3.0-or-later"
+homepage="https://chatty.github.io/"
 distfiles="https://github.com/chatty/chatty/archive/v${version}.tar.gz"
-checksum=72c82832893b96cb744905fd4a9c7015a8cf3670c53f4e42a9256908caf90c05
+checksum=da1ea6b530a7b6548382550a0b4789ea4207f213c46d5e516e7574b47a2f1de1
 
 do_build() {
 	gradle shadowJar

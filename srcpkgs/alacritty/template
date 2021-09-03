@@ -1,11 +1,11 @@
 # Template file for 'alacritty'
 pkgname=alacritty
-version=0.7.1
+version=0.9.0
 revision=1
 build_wrksrc="${pkgname}"
 build_style=cargo
 hostmakedepends="pkg-config python3"
-makedepends="freetype-devel fontconfig-devel libxcb-devel"
+makedepends="freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel"
 depends="libXi libXxf86vm ncurses alacritty-terminfo-${version}_${revision}"
 short_desc="Cross-platform, GPU-accelerated terminal emulator"
 maintainer="Andrea Brancaleoni <abc@pompel.me>"
@@ -13,7 +13,7 @@ license="Apache-2.0"
 homepage="https://github.com/alacritty/alacritty"
 changelog="https://raw.githubusercontent.com/alacritty/alacritty/master/CHANGELOG.md"
 distfiles="${homepage}/archive/v${version}.tar.gz"
-checksum=90dc5cd49bf0bb01a3202de2170ba376f9530aa265a939f6b3af3d30f8361f50
+checksum=6d3aaac9e0477f903563b6fb26e089118407cdbfe952a1e2ffbf4e971b7062b3
 
 case "$XBPS_TARGET_MACHINE" in
 	ppc64*) ;;

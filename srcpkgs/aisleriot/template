@@ -1,6 +1,6 @@
 # Template file for 'aisleriot'
 pkgname=aisleriot
-version=3.22.14
+version=3.22.17
 revision=1
 build_style=meson
 # build requires assertions to be turned on -> n_debug=false
@@ -11,9 +11,9 @@ hostmakedepends="desktop-file-utils glib-devel guile intltool itstool pkg-config
 makedepends="guile-devel libcanberra-devel librsvg-devel libatomic_ops-devel"
 depends="guile yelp"
 short_desc="GNOME solitaire card game"
-maintainer="Jürgen Buchmüller <pullmoll@t-online.de>"
+maintainer="Érico Nogueira <ericonr@disroot.org>"
 license="GPL-3.0-or-later"
 homepage="https://wiki.gnome.org/Apps/Aisleriot"
 distfiles="https://gitlab.gnome.org/GNOME/${pkgname}/-/archive/${version}/${pkgname}-${version}.tar.gz"
-checksum=23249cff1cad498a6c465a597d927ee4386bd0d9ecf0b189de84d6fc384f1160
+checksum=1cbdb960652981253d9774405f75abd76fbeeed7b827ebb4d8899a2b23bc4e65
 replaces="aisleriot-data>=0"

@@ -1,9 +1,8 @@
 # Template file for 'kpeople'
 pkgname=kpeople
-version=5.78.0
+version=5.85.0
 revision=1
 build_style=cmake
-configure_args="-DBUILD_TESTING=OFF"
 hostmakedepends="kcoreaddons extra-cmake-modules gettext
  qt5-host-tools qt5-qmake python3"
 makedepends="kitemviews-devel kservice-devel kwidgetsaddons-devel qt5-plugin-mysql
@@ -13,7 +12,12 @@ maintainer="John <me@johnnynator.dev>"
 license="LGPL-2.1-or-later"
 homepage="https://invent.kde.org/frameworks/kpeople"
 distfiles="${KDE_SITE}/frameworks/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=b180d9623f9ed0c83deb49a299bad6f7b88b50a2f83ea745d0c970e830088c31
+checksum=65ba548dc9fd3a0c96bae150e5972b04be4963bce9d3cf2a1b2b8d24e5b2d60f
+
+do_check() {
+	cd build
+	ctest -E 'personsproxymodeltest|personsmodeltest'
+}
 
 kpeople-devel_package() {
 	short_desc+=" - development"

@@ -1,18 +1,19 @@
 # Template file for 'herbstluftwm'
 pkgname=herbstluftwm
-version=0.9.1
+version=0.9.3
 revision=1
 build_style=cmake
 hostmakedepends="pkg-config asciidoc"
-makedepends="libXrandr-devel libXinerama-devel libglib-devel"
+makedepends="libXrandr-devel libXinerama-devel libglib-devel libXft-devel
+	libXrender-devel freetype-devel"
 conf_files="/etc/xdg/${pkgname}/autostart"
 short_desc="Manual tiling window manager for X"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="BSD-2-Clause"
-homepage="http://herbstluftwm.org"
+homepage="https://herbstluftwm.org"
 changelog="https://raw.githubusercontent.com/herbstluftwm/herbstluftwm/master/NEWS"
-distfiles="http://herbstluftwm.org/tarballs/${pkgname}-${version}.tar.gz"
-checksum=1e16277127e24f119b0f110b66a2723b9987bf70e4db0b2ec20c9fb4e9549864
+distfiles="https://herbstluftwm.org/tarballs/herbstluftwm-${version}.tar.gz"
+checksum=0ba7b1bd02966e6eefe27805753082406a2d2954bc41fe040d1ccaaed25ec105
 
 post_install() {
 	vlicense LICENSE

@@ -1,20 +1,17 @@
 # Template file for 'jetbrains-jdk-bin'
 pkgname=jetbrains-jdk-bin
-reverts=11.0.9b1183.9_1
-version=11.0.9.1b1257.1
+version=11.0.11b1504.16
 revision=1
 archs="x86_64"
-wrksrc="jbrsdk"
-hostmakedepends="wget"
+wrksrc="jbr"
 short_desc="JetBrains Java 11 JDK"
 maintainer="Anton Afanasyev <anton@doubleasoftware.com>"
 license="GPL-2.0-only, Classpath-exception-2.0"
 homepage="https://github.com/JetBrains/JetBrainsRuntime"
 _jdk_ver=${version%b*}
 _jdk_build=${version#*b}
-distfiles="https://dl.bintray.com/jetbrains/intellij-jbr/jbrsdk-${_jdk_ver//\./_}-linux-x64-b${_jdk_build}.tar.gz"
-checksum=c9f40f9591a3d740963e12a668740525f6d84fe7f6756589ec99e695a34fe94a
-fetch_cmd="wget --quiet"
+distfiles="https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-${_jdk_ver//\./_}-linux-x64-b${_jdk_build}.tar.gz"
+checksum=f289130e302357d000c84e56d31e24fb0d1fcf74cac84787acc1b08d6f51490f
 # This JDK appears to link to libs that do not exist, but functions well even in their absence.
 # Best guess is that they are optional. ¯\_(ツ)_/¯
 noverifyrdeps=yes
@@ -28,7 +25,6 @@ do_install() {
 	vcopy bin ${TARGET_PATH}
 	vcopy conf ${TARGET_PATH}
 	vcopy include ${TARGET_PATH}
-	vcopy jmods ${TARGET_PATH}
 	vcopy legal ${TARGET_PATH}
 	vcopy lib ${TARGET_PATH}
 	vcopy release ${TARGET_PATH}

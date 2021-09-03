@@ -1,6 +1,7 @@
 # Template file for 'ell'
+# ell ABI isn't stable! Always test dependants after updates and update common/shlibs
 pkgname=ell
-version=0.36
+version=0.41
 revision=1
 build_style=gnu-configure
 configure_args="--enable-glib"
@@ -12,13 +13,12 @@ maintainer="Érico Nogueira <ericonr@disroot.org>"
 license="GPL-2.0-only"
 homepage="https://01.org/ell"
 distfiles="${KERNEL_SITE}/libs/${pkgname}/${pkgname}-${version}.tar.xz"
-checksum=2f99e743a235b1c834b19112e4e0283d02da93b863899381466cde47bf159cf6
+checksum=4e8dba6c53cf152dbd0fd1dc3d4c7b04abf79e20a948895f85943e586870505c
+# tests depend on kernel features
+make_check=extended
 
 do_check() {
-	if [ "$XBPS_CHECK_PKGS" = full]; then
-		# tests depend on kernel features
-		dbus-run-session make check
-	fi
+	dbus-run-session make check
 }
 
 ell-devel_package() {

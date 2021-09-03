@@ -1,6 +1,6 @@
 # Template file for 'dijo'
 pkgname=dijo
-version=0.2.5
+version=0.2.7
 revision=1
 build_style=cargo
 makedepends="ncurses-devel"
@@ -9,7 +9,7 @@ maintainer="cinerea0 <cinerea0@protonmail.com>"
 license="MIT"
 homepage="https://github.com/NerdyPepper/dijo"
 distfiles="https://github.com/NerdyPepper/dijo/archive/v${version}.tar.gz"
-checksum=3e32e07e64af9b6c5c20a04c9c893accc8a95973df0ef519a096dd1c268eaef9
+checksum=d82ce7adb19e5206e014f0a895fe3ed361f32088048116e9d33aea37f3cccb00
 
 post_install() {
 	vlicense LICENSE

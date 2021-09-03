@@ -4,7 +4,7 @@
 # to start.
 pkgname=bibletime
 version=3.0
-revision=1
+revision=2
 build_style=cmake
 configure_args="-DBT_DOCBOOK_XSL_HTML_CHUNK_XSL=/usr/share/xsl/docbook/html/chunk.xsl
  -DBT_DOCBOOK_XSL_PDF_DOCBOOK_XSL=/usr/share/xsl/docbook/fo/docbook.xsl"
@@ -27,7 +27,6 @@ pre_build() {
 }
 
 pre_check() {
-	export QT_QPA_PLATFORM=offscreen
 	mkdir -p "share/bibletime"
 	cd "share/bibletime"
 	mkdir -p icons javascript license pics locale docs/handbook/en docs/howto/en display-templates

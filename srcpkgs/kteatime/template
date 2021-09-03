@@ -1,6 +1,6 @@
 # Template file for 'kteatime'
 pkgname=kteatime
-version=20.12.1
+version=21.08.0
 revision=1
 build_style=cmake
 hostmakedepends="extra-cmake-modules gettext kcoreaddons kdoctools
@@ -11,4 +11,4 @@ maintainer="Piotr Wójcik <chocimier@tlen.pl>"
 license="GPL-2.0-or-later"
 homepage="https://www.kde.org/applications/games/kteatime/"
 distfiles="${KDE_SITE}/release-service/${version}/src/kteatime-${version}.tar.xz"
-checksum=fd9b504cc37c4acf495a31c576048a53f735e8d93024e7230be6a3343c1f2c49
+checksum=2467a7cf001753b97d5c638949a36efa791fbdf439520e7dace2a5b00448b546

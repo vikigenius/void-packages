@@ -1,30 +1,29 @@
 # Template file for 'iwd'
 pkgname=iwd
-version=1.11
+version=1.17
 revision=1
 build_style=gnu-configure
 configure_args="--disable-systemd-service --enable-pie
- --enable-external-ell --enable-dbus-policy --enable-wired"
+ --enable-dbus-policy --enable-wired"
 hostmakedepends="python3-docutils pkg-config"
-makedepends="readline-devel dbus-devel ell-devel"
-depends="dbus ell>=0.36"
-checkdepends="python3"
+makedepends="readline-devel dbus-devel"
+depends="dbus"
+checkdepends="python3 $depends"
 short_desc="Internet Wireless Daemon by Intel that aims to replace wpa_supplicant"
 maintainer="Érico Nogueira <ericonr@disroot.org>"
 license="LGPL-2.1-or-later"
 homepage="https://iwd.wiki.kernel.org/"
 changelog="https://git.kernel.org/pub/scm/network/wireless/iwd.git/plain/ChangeLog"
 distfiles="${KERNEL_SITE}/network/wireless/${pkgname}-${version}.tar.xz"
-checksum=db854f569cfa94dc32120d8cf2e7d483a16679f238e1a4794837d0e455ea7aa9
+checksum=6f946f823b0dc3205e4e72becf8ad1915448d194f5b10d8003e4c8c5a18e4ef7
 make_dirs="/var/lib/iwd 0600 root root
  /var/lib/ead 0600 root root
  /etc/iwd 755 root root"
+# tests depend on kernel features
+make_check=extended
 
 do_check() {
-	if [ "$XBPS_CHECK_PKGS" = full]; then
-		# tests depend on kernel features
-		dbus-run-session make check
-	fi
+	dbus-run-session make check
 }
 
 post_install() {

@@ -1,6 +1,6 @@
 # Template file for 'samba'
 pkgname=samba
-version=4.13.3
+version=4.14.7
 revision=1
 build_style=waf3
 build_helper="qemu"
@@ -27,14 +27,14 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-3.0-or-later"
 homepage="http://www.samba.org"
 distfiles="http://download.samba.org/pub/samba/stable/${pkgname}-${version}.tar.gz"
-checksum=c10585d43f33656fe4e1f9ff8bf40ea57d8d5b653521c1cc198fbf4922756541
+checksum=6f50353f9602aa20245eb18ceb00e7e5ec793df0974aebd5254c38f16d8f1906
 lib32disabled=yes
 conf_files="/etc/pam.d/samba /etc/samba/smb.conf"
 make_dirs="/etc/samba/private 0750 root root"
 subpackages="smbclient samba-ctdb samba-cups samba-devel samba-libs samba-python3"
 
 if [ "$XBPS_TARGET_LIBC" = "musl" ]; then
-	makedepends+=" musl-legacy-compat"
+	makedepends+=" musl-legacy-compat musl-nscd-devel"
 else
 	makedepends+=" glusterfs-devel"
 	subpackages+=" samba-glusterfs"

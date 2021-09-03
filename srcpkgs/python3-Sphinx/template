@@ -1,6 +1,6 @@
 # Template file for 'python3-Sphinx'
 pkgname=python3-Sphinx
-version=3.4.3
+version=4.1.1
 revision=1
 wrksrc=Sphinx-${version}
 build_style=python3-module
@@ -18,12 +18,8 @@ maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="BSD-3-Clause"
 homepage="http://sphinx-doc.org"
 distfiles="${PYPI_SITE}/S/Sphinx/Sphinx-${version}.tar.gz"
-checksum=41cad293f954f7d37f803d97eb184158cfd90f51195131e94875bc07cd08b93c
+checksum=23c846a1841af998cb736218539bb86d16f5eb95f5760b1966abcd2d584e62b8
 conflicts="python-Sphinx>=0"
-
-do_check() {
-	PYTHONPATH=$(pwd)/build/lib pytest
-}
 
 post_install() {
 	vlicense LICENSE

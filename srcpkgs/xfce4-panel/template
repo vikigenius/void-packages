@@ -1,6 +1,6 @@
 # Template file for 'xfce4-panel'
 pkgname=xfce4-panel
-version=4.16.1
+version=4.16.3
 revision=1
 build_style=gnu-configure
 build_helper="gir"
@@ -13,7 +13,7 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later"
 homepage="https://xfce.org/"
 distfiles="https://archive.xfce.org/src/xfce/$pkgname/${version%.*}/$pkgname-$version.tar.bz2"
-checksum=fa099bc6be6592dbb828747a473c2e1b0e7f85afd945a98002b475bb6f975991
+checksum=5934eaed8a76da52c29b734ccd79600255420333dd6ebd8fd9f066379af1e092
 
 # Package build options
 build_options="gir"

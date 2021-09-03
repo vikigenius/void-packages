@@ -57,6 +57,7 @@ packages for XBPS, the `Void Linux` native packaging system.
 		* [gtk3-immodules](#triggers_gtk3_immodules)
 		* [hwdb.d-dir](#triggers_hwdb.d_dir)
 		* [info-files](#triggers_info_files)
+		* [initramfs-regenerate](#triggers_initramfs_regenerate)
 		* [kernel-hooks](#triggers_kernel_hooks)
 		* [mimedb](#triggers_mimedb)
 		* [mkdirs](#triggers_mkdirs)
@@ -76,17 +77,19 @@ packages for XBPS, the `Void Linux` native packaging system.
 <a id="Introduction"></a>
 ## Introduction
 
-The `void-packages` repository contains all `source` packages that are the
-recipes to download, compile and build binary packages for `Void`.
-Those `source` package files are called `templates`.
+The `void-packages` repository contains all the
+recipes to download, compile and build binary packages for Void Linux.
+These `source` package files are called `templates`.
 
-The `template files` are `GNU bash` shell scripts that must define some required/optional
-`variables` and `functions` that are processed by `xbps-src` (the package builder)
-to generate the resulting binary packages.
+The `template` files are shell scripts that define `variables` and `functions`
+to be processed by `xbps-src`, the package builder, to generate binary packages.
+The shell used by `xbps-src` is GNU bash; `xbps-src` doesn't aim to be
+compatible with POSIX `sh`.
 
-By convention, all templates start with a comment briefly explaining what they
-are. In addition, pkgname and version can't have any characters in them that
-would require them to be quoted, so they are not quoted.
+By convention, all templates start with a comment saying that it is a
+`template file` for a certain package. Most of the lines should be kept under 80
+columns; variables that list many values can be split into new lines, with the
+continuation in the next line indented by one space.
 
 A simple `template` example is as follows:
 
@@ -146,6 +149,11 @@ fonts).
 Browser forks, including those based on Chromium and Firefox, are generally not
 accepted. Such forks require heavy patching, maintenance and hours of build time.
 
+Software need to be used in version announced by authors as ready to use by
+the general public - usually called releases. Betas, arbitrary VCS revisions,
+templates using tip of development branch taken at build time and releases
+created by the package maintainer won't be accepted.
+
 <a id="buildphase"></a>
 ### Package build phases
 
@@ -166,7 +174,11 @@ can be used to perform other operations before configuring the package.
 
 - `build` This phase compiles/prepares the `source files` via `make` or any other compatible method.
 
-- `check` This optional phase checks the result of the `build` phase for example by running `make -k check`.
+- `check` This optional phase checks the result of the `build` phase by running the testsuite provided by the package.
+If the default `do_check` function provided by the build style doesn't do anything, the template should set
+`make_check_target` and/or `make_check_args` appropriately or define its own `do_check` function. If tests take too long
+or can't run in all environments, `make_check` should be set to fitting value or
+`do_check` should be customized to limit testsuite unless `XBPS_CHECK_PKGS` is `full`.
 
 - `install` This phase installs the `package files` into the package destdir `<masterdir>/destdir/<pkgname>-<version>`,
 via `make install` or any other compatible method.
@@ -422,7 +434,7 @@ in this directory such as `${XBPS_BUILDDIR}/${wrksrc}`.
 
 The list of mandatory variables for a template:
 
-- `homepage` A string pointing to the `upstream` homepage.
+- `homepage` An URL pointing to the upstream homepage.
 
 
 - <a id="var_license"></a>
@@ -431,16 +443,15 @@ The list of mandatory variables for a template:
 Multiple licenses should be separated by commas, Example: `GPL-3.0-or-later, custom:Hugware`.
 
   Empty meta-packages that don't include any files
-  which thus have and require no license, should have set
-  `license="BSD-2-Clause"`.
+  and thus have and require no license should use
+  `Public Domain`.
 
   Note: `MIT`, `BSD`, `ISC` and custom licenses
   require the license file to be supplied with the binary package.
 
-- `maintainer` A string in the form of `name <user@domain>`.  The
-  email for this field must be a valid email that you can be reached
-  at.  Packages using `users.noreply.github.com` emails will not be
-  accepted.
+- `maintainer` A string in the form of `name <user@domain>`.  The email for this field
+must be a valid email that you can be reached at. Packages using
+`users.noreply.github.com` emails will not be accepted.
 
 - `pkgname` A string with the package name, matching `srcpkgs/<pkgname>`.
 
@@ -452,6 +463,9 @@ the generated `binary packages` have been modified.
 
 - `version` A string with the package version. Must not contain dashes or underscore
 and at least one digit is required. Shell's variable substition usage is not allowed.
+
+Neither `pkgname` or `version` should contain special characters which make it
+necessary to quote them, so they shouldn't be quoted in the template.
 
 <a id="optional_vars"></a>
 #### Optional variables
@@ -476,7 +490,8 @@ in the local repository exists to satisfy the required version. Dependencies
 can be specified with the following version comparators: `<`, `>`, `<=`, `>=`
 or `foo-1.0_1` to match an exact version. If version comparator is not
 defined (just a package name), the version comparator is automatically set to `>=0`.
-Example: `depends="foo blah>=1.0"`. See the `Runtime dependencies` section for more information.
+Example: `depends="foo blah>=1.0"`. See the [Runtime dependencies](#deps_runtime) section
+for more information.
 
 - `bootstrap` If enabled the source package is considered to be part of the `bootstrap`
 process and required to be able to build packages in the chroot. Only a
@@ -584,10 +599,20 @@ current directory with respect to the install.
 
 - `patch_args` The arguments to be passed in to the `patch(1)` command when applying
 patches to the package sources during `do_patch()`. Patches are stored in
-`srcpkgs/<pkgname>/patches` and must be in `-p0` format. By default set to `-Np0`.
+`srcpkgs/<pkgname>/patches` and must be in `-p1` format. By default set to `-Np1`.
 
 - `disable_parallel_build` If set the package won't be built in parallel
 and `XBPS_MAKEJOBS` has no effect.
+
+- `make_check` Sets the cases in which the `check` phase is run.
+This option should usually be accompanied by a comment explaining why it was set, especially when
+set to `no`.
+Allowed values:
+  - `yes` (the default) to run if `XBPS_CHECK_PKGS` is set.
+  - `extended` to run if `XBPS_CHECK_PKGS` is `full`.
+  - `ci-skip` to run locally if `XBPS_CHECK_PKGS` is set, but not as part of pull request checks.
+  - `no` to never run.
+
 
 - `keep_libtool_archives` If enabled the `GNU Libtool` archives won't be removed. By default those
 files are always removed automatically.
@@ -718,6 +743,8 @@ used.
 
 - `fetch_cmd` Executable to be used to fetch URLs in `distfiles` during the `do_fetch` phase.
 
+- `changelog` An URL pointing to the upstream changelog. Raw text files are preferred.
+
 - `archs` Whitespace separated list of architectures that a package can be
 built for, available architectures can be found under `common/cross-profiles`.
 In general, `archs` should only be set if the upstream software explicitly targets
@@ -734,6 +761,10 @@ Examples:
 	archs="*"
 	```
 A special value `noarch` used to be available, but has since been removed.
+
+- `nocheckperms` If set, xbps-src will not fail on common permission errors (world writable files, etc.)
+
+- `nofixperms` If set, xbps-src will not fix common permission errors (executable manpages, etc.)
 
 <a id="explain_depends"></a>
 #### About the many types of `depends` variables
@@ -847,7 +878,7 @@ been found or to fix compilation with new software.
 
 To handle this, xbps-src has patching functionality. It will look for all files
 that match the glob `srcpkgs/$pkgname/patches/*.{diff,patch}` and will
-automatically apply all files it finds using `patch(1)` with `-Np0`. This happens
+automatically apply all files it finds using `patch(1)` with `-Np1`. This happens
 during the `do_patch()` phase. The variable `PATCHESDIR` is
 available in the template, pointing to the `patches` directory.
 
@@ -903,12 +934,11 @@ that do such things as append (`+=`) to variables, should have `make_use_env`
 set in the body of the template.
 
 - `go` For programs written in Go that follow the standard package
-  structure. The variable `go_import_path` must be set to the package's
-  import path, e.g. `github.com/github/hub` for the `hub` program. If
-  the variable `go_get` is set to `yes`, the package will be
-  downloaded with `go get`. Otherwise (the default) it's expected that
-  the distfile contains the package. In both cases, dependencies will
-  be downloaded with `go get`.
+structure. The variable `go_import_path` must be set to the package's
+import path, e.g. `github.com/github/hub` for the `hub` program. This
+information can be found in the `go.mod` file for modern Go projects.
+It's expected that the distfile contains the package, but dependencies
+will be downloaded with `go get`.
 
 - `meta` For `meta-packages`, i.e packages that only install local files or simply
 depend on additional packages. This build style does not install
@@ -961,9 +991,9 @@ via `make_install_target`.
 via `configure_args`, the meson command can be overridden by `meson_cmd` and the location of
 the out of source build by `meson_builddir`
 
-- `void-cross` For cross-toolchain packages used to build Void systems. You will need to
-specify `cross_triplet` (corresponds to the target triplet specified in the cross profile
-for the target arch). Optionally, `cross_gcc_skip_go` can be specified. Individual subproject
+- `void-cross` For cross-toolchain packages used to build Void systems. There are no
+mandatory variables (target triplet is inferred), but you can specify some optional
+ones - `cross_gcc_skip_go` can be specified to skip `gccgo`, individual subproject
 configure arguments can be specified via `cross_*_configure_args` where `*` is `binutils`,
 `gcc_bootstrap` (early gcc), `gcc` (final gcc), `glibc` (or `musl`), `configure_args` is
 additionally passed to both early and final `gcc`. You can also specify custom `CFLAGS`
@@ -1506,7 +1536,8 @@ This sets some environment variables required to allow cross compilation. Suppor
 building a python module for multiple versions from a single template is also possible.
 The `python3-pep517` build style provides means to build python packages that provide a build-system
 definition compliant with [PEP 517](https://www.python.org/dev/peps/pep-0517/) without a traditional
-`setup.py` script.
+`setup.py` script. The `python3-pep517` build style does not provide a specific build backend, so
+packages will need to add an appropriate backend provider to `hostmakedepends`.
 
 Python packages that rely on `python3-setuptools` should generally map `setup_requires`
 dependencies in `setup.py` to `hostmakedepends` in the template and `install_requires`
@@ -1574,10 +1605,6 @@ The following template variables influence how Go packages are built:
   variable is required.
 - `go_package`: A space-separated list of import paths of the packages
   that should be built. Defaults to `go_import_path`.
-- `go_get`: If set to yes, the package specified via `go_import_path`
-  will be downloaded with `go get`. Otherwise, a distfile has to be
-  provided. This option should only be used with `-git` (or similar)
-  packages; using a versioned distfile is preferred.
 - `go_build_tags`: An optional, space-separated list of build tags to
   pass to Go.
 - `go_mod_mode`: The module download mode to use. May be `off` to ignore
@@ -1859,6 +1886,35 @@ registry located at `usr/share/info`.
 If it is running under another architecture it tries to use the host's `install-info`
 utility.
 
+<a id="triggers_initramfs_regenerate"></a>
+### initramfs-regenerate
+
+The initramfs-regenerate trigger will trigger the regeneration of all kernel
+initramfs images after package installation or removal. The trigger must be
+manually requested.
+
+This hook is probably most useful for DKMS packages because it will provide a
+means to include newly compiled kernel modules in initramfs images for all
+currently available kernels. When used in a DKMS package, it is recommended to
+manually include the `dkms` trigger *before* the `initramfs-regenerate` trigger
+using, for example,
+
+    ```
+    triggers="dkms initramfs-regenerate"
+    ```
+
+Although `xbps-src` will automatically include the `dkms` trigger whenever
+`dkms_modules` is installed, the automatic addition will come *after*
+`initramfs-regenerate`, which will cause initramfs images to be recreated
+before the modules are compiled.
+
+By default, the trigger uses `dracut --regenerate-all` to recreate initramfs
+images. If `/etc/defalt/initramfs-regenerate` exists and defines
+`INITRAMFS_GENERATOR=mkinitcpio`, the trigger will instead use `mkinitcpio` and
+loop over all kernel versions for which modules appear to be installed.
+Alternatively, setting `INITRAMFS_GENERATOR=none` will disable image
+regeneration entirely.
+
 <a id="triggers_kernel_hooks"></a>
 #### kernel-hooks
 
@@ -2076,4 +2132,4 @@ to pull in new changes:
 ## Help
 
 If after reading this `manual` you still need some kind of help, please join
-us at `#xbps` via IRC at `irc.freenode.net`.
+us at `#xbps` via IRC at `irc.libera.chat`.

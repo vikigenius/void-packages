@@ -1,7 +1,7 @@
 # Template file for 'dovecot'
 # revbump dovecot-plugin-pigeonhole when updating dovecot!
 pkgname=dovecot
-version=2.3.13
+version=2.3.16
 revision=2
 build_style=gnu-configure
 configure_args="--with-moduledir=/usr/lib/dovecot/modules --with-sql=plugin
@@ -10,8 +10,8 @@ configure_args="--with-moduledir=/usr/lib/dovecot/modules --with-sql=plugin
  --with-gssapi --with-ldap=plugin --with-zlib --with-bzlib --with-lzma
  --with-lz4 --with-libcap --with-solr --with-docs --sbindir=/usr/bin"
 hostmakedepends="pkg-config perl"
-makedepends=" liblz4-devel zlib-devel bzip2-devel liblzma-devel libressl-devel
- mit-krb5-devel libmysqlclient-devel postgresql-libs-devel sqlite-devel
+makedepends=" liblz4-devel zlib-devel bzip2-devel liblzma-devel openssl-devel
+ mit-krb5-devel libmariadbclient-devel postgresql-libs-devel sqlite-devel
  clucene-devel libldap-devel libcap-devel pam-devel libcurl-devel expat-devel
  libsodium-devel"
 short_desc="IMAP and POP3 server written with security primarily in mind"
@@ -19,7 +19,7 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="LGPL-2.1-or-later"
 homepage="https://dovecot.org/"
 distfiles="${homepage}/releases/2.3/${pkgname}-${version}.tar.gz"
-checksum=a3f875b80ec11a452480690108660030978c94fa8e796ad6d943a874b496f1c4
+checksum=03a71d53055bd9ec528d55e07afaf15c09dec9856cba734904bfd05acbc6cf12
 keep_libtool_archives=yes
 
 if [ "$CROSS_BUILD" ]; then

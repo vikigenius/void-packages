@@ -1,14 +1,15 @@
 # Template file for 'entr'
 pkgname=entr
-version=4.7
+version=5.0
 revision=1
 build_style=gnu-makefile
 short_desc="Utility for running arbitrary commands when files change"
 maintainer="Andrea Brancaleoni <abc@pompel.me>"
 license="ISC"
 homepage="http://entrproject.org"
+changelog="https://raw.githubusercontent.com/eradman/entr/master/NEWS"
 distfiles="$homepage/code/$pkgname-$version.tar.gz"
-checksum=b6c1ab7644d83bb2a269dc74160867a3be0f5df116c7eb453c25053173534429
+checksum=2a87bb7d9e5e89b6f614495937b557dbb8144ea53d0c1fa1812388982cd41ebb
 
 post_extract() {
 	case "$XBPS_TARGET_MACHINE" in

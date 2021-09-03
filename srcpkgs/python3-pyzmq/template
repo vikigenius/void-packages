@@ -1,6 +1,6 @@
 # Template file for 'python3-pyzmq'
 pkgname=python3-pyzmq
-version=22.0.2
+version=22.2.1
 revision=1
 wrksrc="pyzmq-${version}"
 build_style=python3-module
@@ -10,12 +10,12 @@ makedepends="zeromq-devel python3-devel"
 depends="python3"
 checkdepends="python3-pytest"
 short_desc="Python3 bindings for the ZeroMQ messaging library"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Andrew J. Hesford <ajh@sideband.org>"
 license="LGPL-3.0-or-later, BSD-3-Clause"
 homepage="https://pyzmq.readthedocs.io/"
 changelog="https://pyzmq.readthedocs.io/en/latest/changelog.html"
 distfiles="${PYPI_SITE}/p/pyzmq/pyzmq-${version}.tar.gz"
-checksum=d7b82a959e5e22d492f4f5a1e650e909a6c8c76ede178f538313ddb9d1e92963
+checksum=6d18c76676771fd891ca8e0e68da0bbfb88e30129835c0ade748016adb3b6242
 
 pre_build() {
 	cat > setup.cfg <<-EOF

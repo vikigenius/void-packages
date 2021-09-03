@@ -1,9 +1,9 @@
 # Template file for 'saml2aws'
 pkgname=saml2aws
-version=2.26.2
+version=2.32.0
 revision=1
 build_style=go
-go_import_path=github.com/Versent/saml2aws
+go_import_path=github.com/versent/saml2aws/v2
 go_package="$go_import_path/cmd/saml2aws"
 go_ldflags="-X main.Version=${version}"
 hostmakedepends="git"
@@ -13,7 +13,7 @@ maintainer="Mate GABRI <iam@theguy.io>"
 license="MIT"
 homepage="https://github.com/Versent/saml2aws"
 distfiles="https://github.com/Versent/saml2aws/archive/v${version}.tar.gz"
-checksum=f7d5611ad1c9ceefeb705b2158fc4e3cce611985b64b835a83e18201a8fa902d
+checksum=db74d1fa2d2ce22f18d4c2d1d7fae64ad018302eac4803b837de1c083970c771
 
 post_install() {
 	vlicense LICENSE.md

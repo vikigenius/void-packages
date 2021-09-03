@@ -1,6 +1,6 @@
 # Template file for 'kpat'
 pkgname=kpat
-version=20.12.1
+version=21.08.0
 revision=1
 build_style=cmake
 configure_args="-DWITH_BH_SOLVER=OFF"
@@ -13,8 +13,4 @@ maintainer="Piotr Wójcik <chocimier@tlen.pl>"
 license="GPL-2.0-only"
 homepage="https://kde.org/applications/games/kpat"
 distfiles="${KDE_SITE}/release-service/${version}/src/kpat-${version}.tar.xz"
-checksum=a9186b51156307060186b9546947f77f9cfe72c287cd863a01b17309f189a3cd
-
-pre_check() {
-	export QT_QPA_PLATFORM=offscreen
-}
+checksum=7fe0c679ee8e3f7045f6f125b8dd1b2b35b89a9ed70245a817894aeec4effaf2

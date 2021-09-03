@@ -1,6 +1,6 @@
 # Template file for 'python3-scipy'
 pkgname=python3-scipy
-version=1.6.0
+version=1.7.1
 revision=1
 wrksrc="scipy-${version}"
 build_style=python3-module
@@ -12,11 +12,11 @@ makedepends="python3-devel python3-pybind11
 depends="python3-numpy"
 checkdepends="python3-pytest"
 short_desc="Scientific library for Python3"
-maintainer="Alessio Sergi <al3hex@gmail.com>"
+maintainer="Andrew J. Hesford <ajh@sideband.org>"
 license="BSD-3-Clause"
 homepage="https://scipy.org/scipylib/"
 distfiles="https://github.com/scipy/scipy/releases/download/v${version}/scipy-${version}.tar.xz"
-checksum=dd06d02e8ac6e13e973cbab3da63888daf26a4fec1cd8a8d0804ec872864a7f5
+checksum=fdfe1d1eb1569846e331bd8d72106a8c446dafb2192c00adbb5376b02a0a1104
 
 build_options="openblas"
 
@@ -28,10 +28,20 @@ case "$XBPS_TARGET_MACHINE" in
 	*) ;;
 esac
 
+if [ "$build_option_openblas" ]; then
+	case "$XBPS_TARGET_MACHINE" in
+		ppc64*) ;;
+		ppc*) broken="numpy can't be built with openblas";;
+	esac
+fi
+
 LDFLAGS+=" -shared"
 
 # Tell numpy to build in parallel
 export NPY_NUM_BUILD_JOBS="${XBPS_MAKEJOBS}"
+
+# Pythran isn't packaged, disable for now
+export SCIPY_USE_PYTHRAN=0
 
 pre_build() {
 	# Find the right linear algebra subroutines on the target arch

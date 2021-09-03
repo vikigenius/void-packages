@@ -1,25 +1,37 @@
 # Template file for 'pipewire'
 pkgname=pipewire
-version=0.3.21
-revision=2
+version=0.3.34
+revision=1
 build_style=meson
-configure_args="-Dman=true -Dgstreamer=true -Ddocs=true -Dsystemd=false
- -Dbluez5=true -Dffmpeg=true -Dpipewire-alsa=true -Dpipewire-jack=true
- -Dudevrulesdir=/usr/lib/udev/rules.d"
+configure_args="
+ --auto-features=enabled
+ -Db_ndebug=false
+ -Ddocs=enabled
+ -Dlibcamera=disabled
+ -Droc=disabled
+ -Dsdl2=$(vopt_if sdl2 enabled disabled)
+ -Dsystemd=disabled
+ -Dudevrulesdir=/usr/lib/udev/rules.d
+ -Dvulkan=enabled
+"
 hostmakedepends="doxygen graphviz pkg-config xmltoman gettext"
-# LDAC support can be enabled when ldacbt is packaged
-makedepends="SDL2-devel ffmpeg-devel gst-plugins-base1-devel jack-devel
+makedepends="$(vopt_if sdl2 SDL2-devel) gst-plugins-base1-devel jack-devel
  sbc-devel v4l-utils-devel libva-devel libbluetooth-devel ncurses-devel
- libopenaptx-devel fdk-aac-devel"
-depends="libspa-alsa libspa-audioconvert libspa-audiomixer libspa-control"
+ libfreeaptx-devel libusb-devel fdk-aac-devel libsndfile-devel Vulkan-Headers
+ vulkan-loader pulseaudio-devel avahi-libs-devel webrtc-audio-processing-devel"
+depends="libspa-alsa>=${version}_${revision} libspa-audioconvert>=${version}_${revision}
+ libspa-audiomixer>=${version}_${revision} libspa-control>=${version}_${revision}"
 short_desc="Server and user space API to deal with multimedia pipelines"
-maintainer="Kridsada Thanabulpong <sirn@ogsite.net>"
+maintainer="Stefano Ragni <stefano.ragni@outlook.com>"
 license="MIT"
 homepage="https://pipewire.org/"
 changelog="https://gitlab.freedesktop.org/pipewire/pipewire/-/raw/master/NEWS"
 distfiles="https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/${version}/pipewire-${version}.tar.gz"
-checksum=228e744f7acfac92e4c7a2606ed7f6ecd7460f53ec735e7c01176539e386432b
-conf_files="/etc/pipewire/pipewire.conf"
+checksum=7934dd634fa2c6ef7f30c28bc33c102ac39e510dfbbbb4388906590b80b8c991
+make_dirs="/var/lib/pipewire 0755 _pipewire _pipewire"
+system_accounts="_pipewire"
+
+build_options="sdl2"
 
 replaces="libpulseaudio-pipewire>=0"
 
@@ -28,8 +40,17 @@ if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
 	LDFLAGS+=" -latomic"
 fi
 
+if [ "$XBPS_TARGET_ENDIAN" = "le" ]; then
+	makedepends+=" ldacBT-devel"
+else
+	configure_args+=" -Dbluez5-codec-ldac=disabled"
+fi
+
 post_install() {
 	vlicense LICENSE
+	vdoc "${FILESDIR}/README.voidlinux"
+	vsv pipewire
+	vsv pipewire-pulse
 }
 
 libpipewire_package() {
@@ -41,7 +62,7 @@ libpipewire_package() {
 }
 
 pipewire-devel_package() {
-	depends="libpipewire-${version}_${revision}"
+	depends="libpipewire>=${version}_${revision}"
 	short_desc+=" - pipewire and libspa development files"
 	pkg_install() {
 		vmove usr/include/pipewire-0.3
@@ -87,13 +108,6 @@ libspa-control_package() {
 	}
 }
 
-libspa-ffmpeg_package() {
-	short_desc+=" - ffmpeg plugins"
-	pkg_install() {
-		vmove usr/lib/spa-0.2/ffmpeg
-	}
-}
-
 libspa-jack_package() {
 	short_desc+=" - jack plugins"
 	pkg_install() {
@@ -130,7 +144,7 @@ gstreamer1-pipewire_package() {
 }
 
 alsa-pipewire_package() {
-	depends="libpipewire-${version}_${revision}"
+	depends="libpipewire>=${version}_${revision}"
 	short_desc+=" - ALSA client library"
 	pkg_install() {
 		vmove usr/lib/alsa-lib
@@ -139,17 +153,18 @@ alsa-pipewire_package() {
 }
 
 libjack-pipewire_package() {
-	depends="libpipewire-${version}_${revision}"
+	depends="libpipewire>=${version}_${revision}"
 	short_desc+=" - JACK client library"
 	pkg_install() {
 		vmove usr/lib/pipewire-0.3/jack
 		vmove usr/bin/pw-jack
+		vmove usr/share/man/man1/pw-jack.1
 	}
 }
 
 pipewire-doc_package() {
 	short_desc+=" - documentation"
 	pkg_install() {
-		vmove usr/share/doc
+		vmove usr/share/doc/pipewire/html
 	}
 }

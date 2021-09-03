@@ -1,6 +1,6 @@
 # Template file for 'fwup'
 pkgname=fwup
-version=1.8.3
+version=1.9.0
 revision=1
 build_style=gnu-configure
 hostmakedepends="automake libtool pkg-config"
@@ -12,7 +12,7 @@ license="Apache-2.0"
 changelog="https://github.com/fhunleth/fwup/raw/main/CHANGELOG.md"
 homepage="https://github.com/fhunleth/fwup"
 distfiles="https://github.com/fhunleth/fwup/archive/v${version}.tar.gz"
-checksum=494907d6bc72a1e3d0b15d5c3276fee942951da858eeadb78868edd5fdc422fc
+checksum=18ae6753145cef2fd5f5fc83e29c2d883e570668d8aa064ee6c94d4c5e44d73d
 
 if [ -z "$CROSS_BUILD" ]; then
 	hostmakedepends+=" help2man"

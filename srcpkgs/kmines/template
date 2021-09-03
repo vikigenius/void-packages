@@ -1,6 +1,6 @@
 # Template file for 'kmines'
 pkgname=kmines
-version=20.08.1
+version=21.08.0
 revision=1
 build_style=cmake
 hostmakedepends="extra-cmake-modules qt5-qmake qt5-host-tools kdoctools kconfig
@@ -13,4 +13,4 @@ maintainer="toluschr <toluschr@protonmail.com>"
 license="GPL-2.0-or-later"
 homepage="https://kde.org/applications/games/org.kde.kmines"
 distfiles="${KDE_SITE}/release-service/${version}/src/kmines-${version}.tar.xz"
-checksum=eeb58941c94330f3ffdca60c0ca84d8ebcc9c6c355737217b521c54e50c650cd
+checksum=81dbbde8c98115f0f66f945f711b851d61ba97f945691aa49c2d3f8e27a190ec

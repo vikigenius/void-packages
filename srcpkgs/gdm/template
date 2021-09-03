@@ -1,7 +1,7 @@
 # Template file for 'gdm'
 pkgname=gdm
-version=3.38.2.1
-revision=3
+version=40.1
+revision=1
 build_helper="gir"
 build_style=meson
 configure_args="
@@ -22,8 +22,8 @@ short_desc="GNOME Display Manager"
 maintainer="Enno Boland <gottox@voidlinux.org>"
 license="GPL-2.0-or-later"
 homepage="https://wiki.gnome.org/Projects/GDM"
-distfiles="${GNOME_SITE}/${pkgname}/${version%.*.*}/${pkgname}-${version}.tar.xz"
-checksum=ca58a205d5ebfcbdab56a11716b898e16ae5dff21aee79d076046444628ec4da
+distfiles="${GNOME_SITE}/${pkgname}/${version%.*}/${pkgname}-${version}.tar.xz"
+checksum=abb8a1ea664848f2c90f84acaa42e94d256057035881a98fbd41fbc5d7d173fd
 
 conf_files="
 	/etc/gdm/custom.conf
@@ -31,7 +31,6 @@ conf_files="
 	/etc/pam.d/gdm-fingerprint
 	/etc/pam.d/gdm-launch-environment
 	/etc/pam.d/gdm-password
-	/etc/pam.d/gdm-pin
 	/etc/pam.d/gdm-smartcard"
 # Create the 'gdm' system user/group.
 system_accounts="gdm"

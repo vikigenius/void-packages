@@ -1,6 +1,6 @@
 # Template file for 'yelp'
 pkgname=yelp
-version=3.38.2
+version=40.3
 revision=1
 build_style=gnu-configure
 configure_args="--disable-schemas-compile --disable-static"
@@ -13,9 +13,9 @@ maintainer="Érico Nogueira <ericonr@disroot.org>"
 license="GPL-2.0-or-later"
 homepage="https://wiki.gnome.org/Apps/Yelp"
 # change this when it moves to a new major release
-changelog="https://gitlab.gnome.org/GNOME/yelp/-/raw/gnome-3-38/NEWS"
+changelog="https://gitlab.gnome.org/GNOME/yelp-xsl/-/raw/gnome-40/NEWS"
 distfiles="${GNOME_SITE}/${pkgname}/${version%.*}/${pkgname}-${version}.tar.xz"
-checksum=9ba88b59a7c087fea56970549265ca8eb0a83a72ee2800aed03c455101d28c8b
+checksum=a173847851f26189be78ecbb10015d539d8cceffc7c23e8635492bc3ada5ee23
 
 yelp-devel_package() {
 	depends="yelp-${version}_${revision}"
