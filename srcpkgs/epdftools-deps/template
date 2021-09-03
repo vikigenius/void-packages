@@ -1,0 +1,11 @@
+# Template file for 'python-deps'
+pkgname=epdftools-deps
+version=0.1.0
+revision=1
+build_style=meta
+depends="autoconf automake gcc poppler-glib-devel"
+short_desc="Emacs pdf-tools deps meta package"
+maintainer="Vikash Balasubramanian <master.bvik@gmail.com>"
+license="Public Domain"
+homepage="http://www.voidlinux.org/"
+
