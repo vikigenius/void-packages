@@ -1,0 +1,25 @@
+VAR_LIB=/var/lib/nordlayer
+
+case "$ACTION" in
+pre)
+    # Actions to execute before the package files are unpacked.
+    ;;
+post)
+    if [ "$UPDATE" = "yes" ]; then
+        # actions to execute if package is being updated.
+        :
+    else
+        # actions to execute if package is being installed.
+        setcap CAP_NET_BIND_SERVICE,CAP_NET_ADMIN,CAP_NET_RAW+eip /usr/sbin/nordlayerd
+        setcap CAP_NET_BIND_SERVICE,CAP_NET_ADMIN,CAP_NET_RAW+eip /usr/sbin/nordlayer-openvpn
+
+        groupadd -r -f nordlayer
+
+        if ! id "nordlayer" > /dev/null 2>&1; then
+            useradd -s /usr/sbin/nologin -c "Used for running NordLayer" -r -M -d /run/nordlayer -g nordlayer nordlayer
+        fi
+        chmod 0770 -R ${VAR_LIB}
+        chown nordlayer:nordlayer -R ${VAR_LIB}
+    fi
+    ;;
+esac

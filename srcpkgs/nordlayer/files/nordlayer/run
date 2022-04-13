@@ -1,0 +1,8 @@
+#!/bin/sh
+sv check dbus >/dev/null || exit 1
+install -d -m0770 -onordlayer -gnordlayer /run/nordlayer
+chmod g+s /run/nordlayer
+setfacl -d -m g::rwX /run/nordlayer
+setfacl -d -m o::rX /run/nordlayer
+umask 0
+exec chpst -u nordlayer:nordlayer /usr/bin/nordlayerd

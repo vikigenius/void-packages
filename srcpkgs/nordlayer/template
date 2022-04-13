@@ -1,0 +1,40 @@
+# Template file for 'nordlayer'
+pkgname=nordlayer
+version=2.2.0
+revision=1
+archs="x86_64"
+hostmakedepends="tar gzip"
+depends="xdg-utils"
+short_desc="Enterprise VPN"
+maintainer="Vikash Balasubramanian"
+license="custom:Proprietary"
+homepage="https://cp.nordlayer.com"
+distfiles="https://downloads.nordlayer.com/linux/latest/debian/pool/main/${pkgname}_${version}_amd64.deb"
+checksum=ab482eddc507e4005bce7cb85e11442b950e7404fdf1557fc8e3616a60ee4b44
+restricted=yes
+repository="nonfree"
+nopie=yes
+nostrip=yes
+
+do_extract() {
+	ar x ${XBPS_SRCDISTDIR}/${pkgname}-${version}/${pkgname}_${version}_amd64.deb
+	tar xf data.tar.gz
+}
+
+do_install() {
+	vbin usr/bin/nordlayer
+	vbin usr/bin/nordlayer-ip
+	vbin usr/bin/nordvpnteams
+    vmkdir usr/lib/tmpfiles.d
+    vinstall usr/lib/tmpfiles.d/nordlayer.conf 644 usr/lib/tmpfiles.d
+    vbin usr/sbin/nordlayerd
+    vbin usr/sbin/nordlayer-openvpn
+    vmkdir var/lib/polkit-1/localauthority
+    vcopy var/lib/polkit-1/localauthority/60-com.nordlayer var/lib/polkit-1/localauthority
+    vinstall etc/default/nordlayer 644 etc/default
+    vinstall usr/share/polkit-1/rules.d/90-com.nordlayer.VPN.rules 644 usr/share/polkit-1/rules.d
+    vsv nordlayer
+    vman usr/share/man/man1/nordlayer.1.gz
+    vcopy etc/nordlayer etc
+    vcopy usr/share/doc/nordlayer usr/share/doc
+}
