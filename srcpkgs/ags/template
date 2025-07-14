@@ -1,0 +1,23 @@
+# Template file for 'ags'
+pkgname=ags
+version=1.8.2
+revision=1
+build_style=meson
+hostmakedepends="nodejs pkg-config"
+makedepends="gtk+3-devel glib-devel gjs-devel gtk-layer-shell pulseaudio-devel gobject-introspection pam-devel"
+short_desc="Aylur's Graphical Shell"
+maintainer="Aylur"
+license="MIT"
+homepage="https://github.com/Aylur/ags"
+distfiles="https://github.com/Aylur/ags/releases/download/v${version}/${pkgname}-v${version}.tar.gz"
+checksum="ea0a706bef99578b30d40a2d0474b7a251364bfcf3a18cdc9b1adbc04af54773"
+
+pre_configure() {
+	npm install typescript
+	export PATH="$PATH:${wrksrc}/${build_wrksrc}/node_modules/.bin/"
+}
+
+pre_build() {
+    npm install
+}
+

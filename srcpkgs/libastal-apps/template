@@ -1,0 +1,34 @@
+# Template file for 'astal'
+pkgname=libastal-apps
+version=0.1.0
+revision=1
+build_style=meson
+build_helper="gir"
+hostmakedepends="gobject-introspection pkg-config vala valadoc"
+makedepends="glib-devel json-glib-devel"
+depends="libastal"
+short_desc="Building blocks for creating custom desktop shells"
+maintainer="Aylur"
+license="LGPL-2.1"
+homepage="https://aylur.github.io/astal/"
+distfiles="https://github.com/Aylur/astal/archive/4820a3e37cc8eb81db6ed991528fb23472a8e4de.zip"
+checksum=9d9b35ecb10d6a6c6c34a22b9f37c87e0719129bc2a7a636bc26b2b468f431c4
+
+do_configure() {
+	cd lib/apps
+	meson setup --prefix=/usr build
+}
+
+do_build() {
+	cd lib/apps
+	meson compile -C build
+}
+
+do_install() {
+	cd lib/apps
+	DESTDIR=${DESTDIR} meson install -C build
+}
+
+post_install() {
+	vlicense LICENSE
+}
