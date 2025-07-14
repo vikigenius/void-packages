@@ -1,0 +1,24 @@
+# Template file for 'rofi'
+# XXX: ensure all compiled rofi plugins work with each version
+# xlocate 'usr/lib/rofi/.*.so' to find them
+pkgname=rofi-wayland
+version=1.7.9+wayland1
+revision=1
+build_style=meson
+hostmakedepends="flex glib-devel pkg-config"
+makedepends="libXinerama-devel librsvg-devel libxkbcommon-devel
+ pango-devel startup-notification-devel xcb-util-keysyms-devel
+ xcb-util-wm-devel xcb-util-xrm-devel xcb-util-cursor-devel
+ wayland-devel wayland-protocols"
+short_desc="Window switcher, run dialog and dmenu replacement"
+maintainer="classabbyamp <void@placeviolette.net>"
+license="MIT"
+homepage="https://github.com/lbonn/rofi"
+changelog="https://github.com/lbonn/rofi/releases"
+distfiles="https://github.com/lbonn/rofi/releases/download/${version}/rofi-${version}.tar.xz"
+checksum=edeb12479e759de6a1734f62237605d79baef43d610d5af687b337e98756b74e
+conflicts=rofi
+
+post_install() {
+	vlicense COPYING
+}
