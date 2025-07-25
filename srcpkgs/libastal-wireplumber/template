@@ -1,18 +1,18 @@
 # Template file for 'astal'
 pkgname=libastal-wireplumber
-version=0.1.0
+version=0.2.0
 revision=1
 build_style=meson
 build_helper="gir"
-hostmakedepends="pkg-config vala valadoc"
-makedepends="wireplumber-devel pipewire-devel"
+hostmakedepends="gobject-introspection pkg-config vala valadoc"
+makedepends="glib-devel wireplumber-devel pipewire-devel"
 depends="libastal"
 short_desc="Building blocks for creating custom desktop shells"
 maintainer="Aylur"
 license="LGPL-2.1"
 homepage="https://aylur.github.io/astal/"
-distfiles="https://github.com/Aylur/astal/archive/4820a3e37cc8eb81db6ed991528fb23472a8e4de.zip"
-checksum=9d9b35ecb10d6a6c6c34a22b9f37c87e0719129bc2a7a636bc26b2b468f431c4
+distfiles="https://github.com/Aylur/astal/archive/2c5eb54f39e1710c6e2c80915a240978beb3269a.zip"
+checksum=52d18ddcbc9fc83c3aaed80c72e00cc917cd962a65d5bb69aaf54c96bf9453d8
 
 do_configure() {
 	cd lib/wireplumber
