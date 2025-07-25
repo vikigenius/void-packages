@@ -1,7 +1,7 @@
 # Template file for 'supersonic-desktop'
 pkgname=supersonic-desktop
-version=0.15.2
-revision=2
+version=0.17.0
+revision=1
 build_style=go
 go_import_path="github.com/dweymouth/supersonic"
 hostmakedepends="pkg-config"
@@ -12,7 +12,7 @@ license="GPL-3.0-or-later"
 homepage="https://github.com/dweymouth/supersonic"
 changelog="https://raw.githubusercontent.com/dweymouth/supersonic/refs/heads/main/CHANGELOG.md"
 distfiles="https://github.com/dweymouth/supersonic/archive/v${version}.tar.gz"
-checksum=5d1a4a66cc5715e3995a712996fb31b426bf933fcb3cb9731b0a9548975e4ee1
+checksum=6a84f857d68ef9581b3fcc7299fe11be316bc989e16e561d7ad657831c3303d6
 
 post_install() {
 	mv "${DESTDIR}/usr/bin/supersonic" "${DESTDIR}/usr/bin/supersonic-desktop"
